@@ -1,25 +1,26 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 const SignUpForm = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ username: '', password: '' });
+  // const [formData, setFormData] = useState({ username: '', password: '' });
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    getValues,
   } = useForm({ mode: 'onChange' });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  // const handleChange = (e) => {
+  //   setFormData({ ...formData, [e.target.name]: e.target.value });
+  // };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-
+  const onSubmit = async () => {
+    // e.preventDefault();
     try {
+      const formData = getValues();
       const res = await fetch('http://localhost:3000/auth/sign-up', {
         method: 'POST',
         credentials: 'include',
@@ -49,15 +50,15 @@ const SignUpForm = () => {
           type='text'
           id='username'
           name='username'
-          value={formData.username}
-          onChange={handleChange}
+          // value={formData.username}
+          // onChange={handleChange}
           placeholder='Enter your user name'
           className='rounded-md outline-none mt-1 mb-2 p-3'
-          {...register('name', {
+          {...register('username', {
             required: '* User Name is required.',
           })}
         />
-        <p className='text-red-500 mb-3'>{errors.name?.message}</p>
+        <p className='text-red-500 mb-3'>{errors.username?.message}</p>
 
         <label htmlFor='password' className='text-white'>
           Password
@@ -66,8 +67,8 @@ const SignUpForm = () => {
           type='password'
           id='password'
           name='password'
-          value={formData.password}
-          onChange={handleChange}
+          // value={formData.password}
+          // onChange={handleChange}
           placeholder='Enter your password'
           className='rounded-md outline-none mt-1 mb-2 p-3'
           {...register('password', {
